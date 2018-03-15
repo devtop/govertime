@@ -15,7 +15,7 @@ import (
 
 // run with
 // go run hoursYesterdaysMonth.go -token=`cat toggl.token` -workspace=`cat workspace.id`
-func main() {
+func HoursYesterdaysMonth()  (*time.Duration){
 
   apiToken := flag.String("token", "foo", "Toggle API Token")
   workspaceID := flag.Int("workspace", 0, "Your Workspace ID")
@@ -51,16 +51,8 @@ func main() {
   fz := time.Duration(f.TotalGrand) * time.Millisecond
 
   total := d - ( fz / 2 )
-  fmt.Println("Total: ", total.String())
 
-
-	// List of project entries
-	for _, p := range s.Projects {
-		d = time.Duration(p.Total) * time.Millisecond
-		fmt.Println("- ", p.ID, p.Title.Name, "(", p.Title.Client, ") -> ", d.String())
-	}
-
-  fmt.Println()
+  return &total
 }
 
 func checkError(err error) {
