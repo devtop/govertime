@@ -10,19 +10,11 @@ import (
 	"github.com/devtop/go-toggl-reports/togglreports"
 	"os"
 	"time"
-  "flag"
 )
 
-// run with
-// go run hoursYesterdaysMonth.go -token=`cat toggl.token` -workspace=`cat workspace.id`
-func HoursYesterdaysMonth()  (*time.Duration){
+func HoursYesterdaysMonth(apiToken string, workspaceID int)  (*time.Duration){
 
-  apiToken := flag.String("token", "foo", "Toggle API Token")
-  workspaceID := flag.Int("workspace", 0, "Your Workspace ID")
-
-  flag.Parse()
-
-	c := togglreports.NewClient(*apiToken)
+	c := togglreports.NewClient(apiToken)
 
 
 	y := time.Now().Add(time.Hour * 24 * -1)
@@ -34,7 +26,7 @@ func HoursYesterdaysMonth()  (*time.Duration){
 		End:         &end,
 	}
 
-	s, err := c.Summary.Get(*workspaceID, selection)
+	s, err := c.Summary.Get(workspaceID, selection)
 	checkError(err)
 
 	d := time.Duration(s.TotalGrand) * time.Millisecond
@@ -45,7 +37,7 @@ func HoursYesterdaysMonth()  (*time.Duration){
     Description:  "Fahrtzeit",
 	}
 
-	f, err := c.Summary.Get(*workspaceID, selection)
+	f, err := c.Summary.Get(workspaceID, selection)
 	checkError(err)
 
   fz := time.Duration(f.TotalGrand) * time.Millisecond

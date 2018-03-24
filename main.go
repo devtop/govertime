@@ -7,19 +7,19 @@ package main
 
 import (
 	"fmt"
-//  "flag"
+  "flag"
 )
 
 // run with
 // go run main.go hoursYesterdaysMonth.go -token=`cat toggl.token` -workspace=`cat workspace.id`
 func main() {
 
-//  apiToken := flag.String("token", "foo", "Toggle API Token")
-//  workspaceID := flag.Int("workspace", 0, "Your Workspace ID")
+  apiToken := flag.String("token", "foo", "Toggle API Token")
+  workspaceID := flag.Int("workspace", 0, "Your Workspace ID")
 
-//  flag.Parse()
+  flag.Parse()
 
-  s := HoursYesterdaysMonth()
+  s := HoursYesterdaysMonth(*apiToken, *workspaceID)
 
   fmt.Println(s.String())
 
