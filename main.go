@@ -23,4 +23,6 @@ func main() {
 
   fmt.Println(s.String())
 
+	fmt.Println(workdays())
+
 }
