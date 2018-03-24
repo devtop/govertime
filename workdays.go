@@ -6,9 +6,9 @@
 package main
 
 import (
-//  "github.com/wlbr/feiertage"
+  "github.com/wlbr/feiertage"
 )
 
-func workdays() string {
-  return "Workdays included"
+func workdays() feiertage.Region {
+  return feiertage.Hamburg(2018)
 }
