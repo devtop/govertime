@@ -12,14 +12,14 @@ import (
 
 var ft feiertage.Region
 
-func ThisMonth() int {
+func WorkdaysThisMonth() int {
   y := time.Now().AddDate(0,0,-1)
   firstDayOfMonth := time.Date(y.Year(), y.Month(), 1, y.Hour(), y.Minute(), y.Second(), y.Nanosecond(), y.Location())
 
   return Workdays(&firstDayOfMonth, &y)
 }
 
-func ThisYear() int {
+func WorkdaysThisYear() int {
   y := time.Now().AddDate(0,0,-1)
   firstDayOfYear := time.Date(y.Year(), 1, 1, y.Hour(), y.Minute(), y.Second(), y.Nanosecond(), y.Location())
 

@@ -19,11 +19,11 @@ func main() {
 
   flag.Parse()
 
-  s := HoursYesterdaysMonth(*apiToken, *workspaceID)
+  s := TogglHoursThisMonth(*apiToken, *workspaceID)
 
   fmt.Println(s.String())
 
-	fmt.Println(ThisMonth())
-	fmt.Println(ThisYear())
+	fmt.Println(WorkdaysThisMonth())
+	fmt.Println(WorkdaysThisYear())
 
 }

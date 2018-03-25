@@ -12,10 +12,17 @@ import (
 	"time"
 )
 
-func HoursYesterdaysMonth(apiToken string, workspaceID int)  (*time.Duration){
+func TogglHours(apiToken string, workspaceID int, selection *togglreports.Selectparameters) (time.Duration){
 
 	c := togglreports.NewClient(apiToken)
 
+	r, err := c.Summary.Get(workspaceID, selection)
+	checkError(err)
+
+	return time.Duration(r.TotalGrand) * time.Millisecond
+}
+
+func TogglHoursThisMonth(apiToken string, workspaceID int)  (*time.Duration){
 
 	y := time.Now().Add(time.Hour * 24 * -1)
 	start := time.Date(y.Year(), y.Month(), 1, 0, 0, 0, 0, time.UTC)
@@ -26,10 +33,7 @@ func HoursYesterdaysMonth(apiToken string, workspaceID int)  (*time.Duration){
 		End:         &end,
 	}
 
-	s, err := c.Summary.Get(workspaceID, selection)
-	checkError(err)
-
-	d := time.Duration(s.TotalGrand) * time.Millisecond
+	d := TogglHours(apiToken, workspaceID, selection)
 
   selection = &togglreports.Selectparameters{
 		Start:       &start,
@@ -37,10 +41,7 @@ func HoursYesterdaysMonth(apiToken string, workspaceID int)  (*time.Duration){
     Description:  "Fahrtzeit",
 	}
 
-	f, err := c.Summary.Get(workspaceID, selection)
-	checkError(err)
-
-  fz := time.Duration(f.TotalGrand) * time.Millisecond
+  fz := TogglHours(apiToken, workspaceID, selection)
 
   total := d - ( fz / 2 )
 
