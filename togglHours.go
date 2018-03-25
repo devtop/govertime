@@ -22,22 +22,18 @@ func TogglHours(apiToken string, workspaceID int, selection *togglreports.Select
 	return time.Duration(r.TotalGrand) * time.Millisecond
 }
 
-func TogglHoursThisMonth(apiToken string, workspaceID int)  (*time.Duration){
-
-	y := time.Now().Add(time.Hour * 24 * -1)
-	start := time.Date(y.Year(), y.Month(), 1, 0, 0, 0, 0, time.UTC)
-	end := time.Date(y.Year(), y.Month(), y.Day(), 23, 59, 59, 0, time.UTC)
+func TogglHoursFromUntil(apiToken string, workspaceID int, start *time.Time, end *time.Time) *time.Duration {
 
 	selection := &togglreports.Selectparameters{
-		Start:       &start,
-		End:         &end,
+		Start:       start,
+		End:         end,
 	}
 
 	d := TogglHours(apiToken, workspaceID, selection)
 
   selection = &togglreports.Selectparameters{
-		Start:       &start,
-		End:         &end,
+		Start:       start,
+		End:         end,
     Description:  "Fahrtzeit",
 	}
 
@@ -46,6 +42,15 @@ func TogglHoursThisMonth(apiToken string, workspaceID int)  (*time.Duration){
   total := d - ( fz / 2 )
 
   return &total
+}
+
+func TogglHoursThisMonth(apiToken string, workspaceID int)  (*time.Duration){
+
+	y := time.Now().Add(time.Hour * 24 * -1)
+	start := time.Date(y.Year(), y.Month(), 1, 0, 0, 0, 0, time.UTC)
+	end := time.Date(y.Year(), y.Month(), y.Day(), 23, 59, 59, 0, time.UTC)
+
+	return TogglHoursFromUntil(apiToken, workspaceID, &start, &end)
 }
 
 func checkError(err error) {
