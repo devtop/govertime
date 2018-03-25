@@ -23,6 +23,7 @@ func main() {
 
   fmt.Println(s.String())
 
-	fmt.Println(workdays(nil, nil))
+	fmt.Println(ThisMonth())
+	fmt.Println(ThisYear())
 
 }

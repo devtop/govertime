@@ -6,11 +6,42 @@
 package main
 
 import (
-//  "github.com/wlbr/feiertage"
+  "github.com/wlbr/feiertage"
   "time"
 )
 
-func workdays(from *time.Time, until *time.Time) int {
+var ft feiertage.Region
+
+func ThisMonth() int {
+  y := time.Now().AddDate(0,0,-1)
+  firstDayOfMonth := time.Date(y.Year(), y.Month(), 1, y.Hour(), y.Minute(), y.Second(), y.Nanosecond(), y.Location())
+
+  return Workdays(&firstDayOfMonth, &y)
+}
+
+func ThisYear() int {
+  y := time.Now().AddDate(0,0,-1)
+  firstDayOfYear := time.Date(y.Year(), 1, 1, y.Hour(), y.Minute(), y.Second(), y.Nanosecond(), y.Location())
+
+  return Workdays(&firstDayOfYear, &y)
+}
+
+func isFeiertag(day time.Time) bool {
+  isFt := false
+  for _, v := range ft.Feiertage {
+    if day.After(v.AddDate(0,0,0)) && day.Before(v.AddDate(0,0,1)) {
+      isFt = true
+    }
+  }
+  return isFt
+}
+
+func isWeekend(day time.Time) bool {
+  weekday := day.Weekday()
+  return weekday==0 || weekday==6
+}
+
+func Workdays(from *time.Time, until *time.Time) int {
   if from == nil {
     f := time.Now()
     from = &f
@@ -22,10 +53,10 @@ func workdays(from *time.Time, until *time.Time) int {
   }
 
   daystowork := 0
-  //ft := feiertage.Hamburg(until.Year())
+  ft = feiertage.Hamburg(until.Year())
 
   for current := *from; !until.Before(current); current = current.AddDate(0,0,1) {
-    if true {
+    if !isFeiertag(current) && !isWeekend(current){
       daystowork++
     }
 
