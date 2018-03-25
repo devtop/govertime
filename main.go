@@ -19,6 +19,13 @@ func main() {
 
   flag.Parse()
 
+	c := new(TogglReportConnection)
+	c.Init(*apiToken, *workspaceID)
+
+	fmt.Println(c.HoursThisMonth().String())
+	fmt.Println(c.HoursThisYear().String())
+
+
   s := TogglHoursThisMonth(*apiToken, *workspaceID)
 
   fmt.Println(s.String())
